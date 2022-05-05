@@ -17,8 +17,8 @@
           </td>
           <td><%= link_to @book.title, @book %></td>
           <td><%= @book.body %></td>
-          <td id="favorite_buttons_<%= @book.id %>">
-            <%= render"favorites/favorites", book: @book %>
+          <td id="favorite-buttons_<%= @book.id %>">
+            <%= render partial: "favorites/favorites", locals: {book: @book} %>
           </td>
           <td>コメント件数:<%= @book.post_comments.count %></td>
           <% if @book.user_id == current_user.id %>
@@ -27,31 +27,13 @@
           <% end %>
         </tr>
         </table>
-        <table>
-         <tbody>
-           <% @book.post_comments.each do |post_comment| %>
-           <tr>
-             <td>
-               <%= link_to user_path(post_comment.user) do %>
-                 <%= image_tag post_comment.user.get_profile_image, size: "100x100" %><br>
-                 <%= post_comment.user.name %>
-                <% end %>
-              </td>
-              <td><%= post_comment.comment %></td>
-              <td>
-                <% if post_comment.user == current_user %>
-                  <%= link_to "Destroy", book_post_comment_path(post_comment.book, post_comment), method: :delete, class: "btn btn-danger pull-right" %><br>
-                <% end %>
-              </td>
-            </tr>
-            <% end %>
-          </tbody>
-       </table>
-
-        <div>
+        <div class="comments_area">
+          <%= render partial: "post_comments/book_comments", locals: {book: @book} %>
+        </div>
+        <div id="new-comment">
           <%= form_with model: [@book, @post_comment] do |f| %>
-             <%= f.text_area :comment, rows: '5', placeholder: "コメントをここに" %>
-             <%= f.submit "送信する" %>
+           <%= f.text_area :comment, rows: '5', placeholder: "コメントをここに" %>
+           <%= f.submit "送信する" %>
           <% end %>
         </div>
     </div>
