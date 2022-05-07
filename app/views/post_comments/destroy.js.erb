@@ -1,0 +1,2 @@
+$('.book-comnents-counter').html("<%= j(render 'post_comments/counter', book: @comment.book) %>")
+$('.comments_area').html("<%= j(render 'post_comments/book_comments', book: @comment.book) %>")
